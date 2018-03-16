@@ -1,0 +1,40 @@
+version: "3.2"
+
+services:
+  stargrad:
+    command: rails s -b 0.0.0.0 -p 3000
+    image: 'nicofreeman/private:${COMPOSE_PROJECT_NAME}-rails'
+    ports: ['2701:3000']
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./stargrad:/usr/src/pdf-service
+      - stargrad_gems:/usr/local/bundle
+    build:
+      context: ./.docker/
+      dockerfile: stargrad.dockerfile
+      args:
+        - RAILS_VERSION=${RAILS_VERSION}
+    expose:
+      - '3000'
+
+  pdf:
+    command: rails s -b 0.0.0.0 -p 3000
+    image: 'nicofreeman/private:${COMPOSE_PROJECT_NAME}-pdf_service'
+    ports: ['2702:3000']
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./pdf-service:/usr/src/pdf-service
+      - pdf_gems:/usr/local/bundle
+    build:
+      context: ./.docker/
+      dockerfile: pdf_service.dockerfile
+      args:
+        - RAILS_VERSION=${RAILS_VERSION}
+    expose:
+      - '3000'
+
+volumes:
+  pdf_gems: {driver: local}
+  stargrad_gems: {driver: local}

@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style type="text/css">
+      <% # inline the required css files %>
+      <% File.read "#{Rails.public_path}/stylesheets/pdf.css" %>
+    </style>
+  </head>
+  <body>
+    <div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
+      <div style="width:750px; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
+        <span style="font-size:50px; font-weight:bold">Наградной диплом</span>
+        <br><br>
+        <span style="font-size:25px"><i>Этот диплом подтверждает, что</i></span>
+        <br><br>
+        <span style="font-size:30px"><b><%= @name %></b></span><br/><br/>
+        <span style="font-size:25px"><i>является активным контрибьютером в</i></span> <br/><br/>
+        <span style="font-size:30px"><%= @repo_name %></span> <br/><br/>
+        <span style="font-size:20px">и является автором <b><%= @total_commits %></b> коммитов</span> <br/><br/><br/><br/>
+        <span style="font-size:25px"><i>занимая по активности</i></span><br>
+        <span style="font-size:30px"><%= @order %> место</span>
+      </div>
+    </div>
+    <%= yield %>
+  </body>
+</html>
+
+

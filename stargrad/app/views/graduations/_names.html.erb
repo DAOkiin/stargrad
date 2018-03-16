@@ -1,0 +1,16 @@
+<% if @response.blank? %>
+  <%= 'Проверьте адрес репозитория' %>
+<% else  %>
+  <p>Самые активные контрибьюторы: </p>
+  <% @response.each do |author| %>
+    <%= author[:name] + ': ' + author[:total_commits].to_s + ' коммитов ' %>
+    <%= button_to 'Скачать диплом', action: 'generate_award',
+                                    method: :post,
+                                    name: author[:name],
+                                    total_commits: author[:total_commits],
+                                    repo_name: author[:repo_name],
+                                    order: author[:order],
+                                    remote: true %>
+    <br>
+  <% end %>
+<% end %>

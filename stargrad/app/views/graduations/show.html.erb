@@ -1,0 +1,9 @@
+<%= form_tag('/find_names', remote: true) do |form| %>
+  <%= label_tag(:repo, "Введите адрес репозитория:") %>
+  <%= text_field_tag(:repo) %>
+  <%= submit_tag("Найти")  %>
+<% end  %>
+
+<div id="result">
+  <%= render partial: "names" %>
+</div>
