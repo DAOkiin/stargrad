@@ -1,6 +1,9 @@
-<% if @response.blank? %>
-  <%= 'Проверьте адрес репозитория' %>
-<% else  %>
+<% if @response == false %>
+  <%= 'Проверьте адрес репозитория' %> <br>
+  <%= 'Либо если адрес введен верно, но выдается эта ошибка, перейдите по ссылке' %> <br>
+  <%= 'для кеширования выдачи серверами github, и попробуйте ещё раз' %> <br>
+  <%= link_to "github api", "https://api.github.com/repos/#{@owner}/#{@repo}/stats/contributors", :target => "_blank" %>
+<% elsif !@response.blank?  %>
   <p>Самые активные контрибьюторы: </p>
   <% @response.each do |author| %>
     <%= author[:name] + ': ' + author[:total_commits].to_s + ' коммитов ' %>

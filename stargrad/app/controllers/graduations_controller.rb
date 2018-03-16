@@ -9,11 +9,11 @@ class GraduationsController < ApplicationController
     url = repo_params
     splitted = url.split('/')
     if valid_url?(url) && url.include?('github.com/') && splitted.size == 5
-      repo = splitted[-1]
-      owner = splitted[-2]
-      @response = find_best_contrib(owner, repo)
+      @repo = splitted[-1]
+      @owner = splitted[-2]
+      @response = find_best_contrib(@owner, @repo)
     else
-      @response = nil
+      @response = false
     end
   end
 
@@ -46,13 +46,13 @@ class GraduationsController < ApplicationController
     url = URI.parse("https://api.github.com/repos/#{owner}/#{repo}/stats/contributors")
     contributors = JSON.parse(Net::HTTP.get_response(url).body)
     if contributors.is_a?(Hash)
-      nil
+      false
     else
       best = contributors.sort_by { |c| c['total'] }.last(3).reverse
       best.map.with_index { |c, i| { total_commits: c['total'],
                                      repo_name: repo,
                                      name: c['author']['login'],
-                                     repo_name: i + 1
+                                     order: i + 1
                                    }
                           }
     end
